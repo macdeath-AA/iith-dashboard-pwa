@@ -67,7 +67,7 @@
     ],
     "src/**/*.{js,jsx}": [
       "prettier --write",
-      "eslint . --fix"
+      "eslint  --fix"
     ]
   },
   "devDependencies": {

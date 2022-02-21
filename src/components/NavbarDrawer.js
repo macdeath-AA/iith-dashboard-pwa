@@ -52,9 +52,9 @@ const useStyles = makeStyles((theme) => ({
 function NavbarDrawer({ updateTT, toggleTheme }) {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  function handleDrawerToggle() {
+  const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
-  }
+  };
   const drawer = (
     <div>
       <Divider />

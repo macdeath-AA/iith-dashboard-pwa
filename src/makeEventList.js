@@ -231,8 +231,8 @@ function makeEventList(aimsTimeTable, customEventList) {
       const segmentStartDate = moment(segmentStartDates[startSegment - 1]);
       const segmentEndDate = moment(segmentEndDates[endSegment - 1]);
       let courseDisplayName = courseCode;
-      // eslint-disable-next-line
-      if (aimsTimeTable.identifiedCourseNames?.[index]) { 
+
+      if (aimsTimeTable.identifiedCourseNames?.[index]) {
         courseDisplayName = `${aimsTimeTable.identifiedCourseNames[index]} (${courseCode})`;
       }
 
