@@ -97,10 +97,8 @@ function App() {
             tt.identifiedCourses = doc.data().identifiedCourses;
             tt.identifiedSegments = doc.data().identifiedSegments;
             tt.identifiedSlots = doc.data().identifiedSlots;
-            
-            if (
-              'identifiedCourseNames' in doc.data()
-            ) {
+
+            if ('identifiedCourseNames' in doc.data()) {
               tt.identifiedCourseNames = doc.data().identifiedCourseNames;
             } else {
               tt.identifiedCourseNames = null;

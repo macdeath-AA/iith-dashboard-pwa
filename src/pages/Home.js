@@ -333,7 +333,7 @@ function Home({
               className={classes2.root}
               alignItems="center"
             >
-              <Grid item xs={6} alignItems="center">
+              <Grid item xs={6} container alignItems="center">
                 <Box
                   display="flex"
                   justifyContent="flex-start"
@@ -346,7 +346,13 @@ function Home({
                   <Typography variant="h6">EV schedule</Typography>
                 </Box>
               </Grid>
-              <Grid item xs={6} justifyContent="flex-end" alignitems="center">
+              <Grid
+                item
+                xs={6}
+                container
+                justifyContent="flex-end"
+                alignitems="center"
+              >
                 <Box
                   display="flex"
                   bgcolor="background.paper"

@@ -49,13 +49,9 @@ LensIcon.defaultProps = {
   color: 'red',
 };
 
-const StepIcon = ({
-  day,
-  activeStep,
-  activeColor,
-  defaultColor,
-  textColor,
-}) => {
+function StepIcon({
+  day, activeStep, activeColor, defaultColor, textColor,
+}) {
   let color = defaultColor;
   if (day === days[activeStep]) {
     color = activeColor;
@@ -79,7 +75,7 @@ const StepIcon = ({
       </div>
     </div>
   );
-};
+}
 
 StepIcon.propTypes = {
   day: PropTypes.string,
