@@ -84,18 +84,29 @@ function App() {
     setEventList(newEventList);
     setCustomEvents((currentList) => [...currentList, newEvent]);
   };
-  const removeEvent = (eventName) => {
+  const removeEvent = (eventName, startTime, endTime) => {
     const jsonObj = JSON.parse(localStorage.getItem(customKey)) || [];
-    if (jsonObj.title === eventName) {
-      localStorage.removeItem(jsonObj.title);
-    }
 
-    localStorage.setItem(customKey, JSON.stringify(customEvents));
-    const newEventList = makeEventList(aimsTimetable, customEvents);
+    const newCustomList = [];
+    jsonObj.forEach((delEvent) => {
+      console.log(startTime, delEvent.title);
+
+      if (
+        delEvent.title === eventName
+        && delEvent.start === startTime
+        && delEvent.end === endTime
+      ) {
+        return;
+      }
+      newCustomList.push(delEvent);
+    });
+
+    localStorage.setItem(customKey, JSON.stringify(newCustomList));
+    const newEventList = makeEventList(aimsTimetable, newCustomList);
     localStorage.setItem(masterKey, JSON.stringify(newEventList));
 
     setEventList(newEventList);
-    setCustomEvents((currentList) => [currentList]);
+    setCustomEvents(newCustomList);
   };
 
   const updateTT = () => {

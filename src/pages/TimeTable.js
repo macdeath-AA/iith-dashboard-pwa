@@ -83,27 +83,24 @@ function TimeTable({ eventList, handleNewCustomEvent, handleDeleteEvent }) {
 
   // deletes custom event on click
   const handleDelete = (clickInfo) => {
+    console.log(clickInfo.event.start.toISOString());
     if (
       window.confirm(
         `Are you sure you want to delete the event '${clickInfo.event.title}'`,
       )
     ) {
       clickInfo.event.remove();
-      handleDeleteEvent(clickInfo.event.title);
-      // localStorage.removeItem();
-      // const obj = JSON.parse(localStorage.getItem(clickInfo.event.title));
-      // localStorage.removeItem(obj);
-      // localStorage.clear();
+      handleDeleteEvent(
+        clickInfo.event.title,
+        clickInfo.event.start.toISOString(),
+        clickInfo.event.end.toISOString(),
+      );
     }
   };
 
   const handleTitleChange = (event) => {
     title = event.target.value;
   };
-
-  // const handleNoteChange = (event) => {
-  //   note = event.target.value;
-  // }
 
   const handleDateChange = (event) => {
     eventDate = event.target.value;
