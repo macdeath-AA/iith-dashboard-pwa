@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -20,6 +20,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { Switch, FormControlLabel } from '@material-ui/core';
 import './NavBarDrawer.css';
+import Box from '@material-ui/core/Box';
+import BrightnessHighIcon from '@material-ui/icons/BrightnessHigh';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -38,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: drawerWidth,
+    // width: drawerWidth,
   },
   drawerContainer: {
     overflow: 'auto',
@@ -46,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+  },
+  IconButton: {
+    marginRight: theme.spacing(5),
   },
 }));
 
@@ -55,7 +60,53 @@ function NavbarDrawer({ updateTT, toggleTheme }) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  const drawer = (
+  const [isMobile, setIsMobile] = useState(true);
+  useEffect(() => {
+    setIsMobile(window.innerWidth <= 500);
+    window.addEventListener('resize', () => {
+      setIsMobile(window.innerWidth <= 500);
+    });
+  }, []);
+  const drawerHeader = (
+    <div>
+      <Box display="flex">
+        <IconButton
+          key="Sync with aims timetable"
+          type="submit"
+          onClick={updateTT}
+          color="inherit"
+          title="Sync with AIMS Timetable"
+          className={classes.IconButton}
+        >
+          <SyncIcon />
+        </IconButton>
+        <IconButton
+          color="inherit"
+          title="Toggle Theme"
+          type="submit"
+          onClick={toggleTheme}
+          className={classes.IconButton}
+        >
+          <BrightnessHighIcon />
+        </IconButton>
+        <IconButton
+          color="inherit"
+          type="submit"
+          onClick={() => {
+            localStorage.clear();
+            firebase.auth().signOut();
+            window.location.reload();
+          }}
+          title="Logout"
+          className={classes.IconButton}
+        >
+          <ExitToAppIcon />
+        </IconButton>
+      </Box>
+    </div>
+  );
+
+  const drawerNavbarMenu = (
     <div>
       <Divider />
       <List>
@@ -105,18 +156,23 @@ function NavbarDrawer({ updateTT, toggleTheme }) {
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            IITH Dashboard
-          </Typography>
+          {isMobile ? (
+            <IconButton
+              color="inherit"
+              aria-label="Open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              className={classes.menuButton}
+            >
+              <MenuIcon />
+            </IconButton>
+          ) : null}
+          <Box display="flex" flexGrow={1} paddingLeft={isMobile ? 0 : 3}>
+            <Typography variant="h6" noWrap>
+              IITH Dashboard
+            </Typography>
+          </Box>
+          {isMobile ? '' : drawerHeader}
         </Toolbar>
       </AppBar>
 
@@ -134,7 +190,7 @@ function NavbarDrawer({ updateTT, toggleTheme }) {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-            {drawer}
+            {drawerNavbarMenu}
           </Drawer>
         </Hidden>
         <Hidden xsDown implementation="css">
@@ -146,7 +202,7 @@ function NavbarDrawer({ updateTT, toggleTheme }) {
             }}
           >
             <div className={classes.toolbar} />
-            {drawer}
+            {drawerNavbarMenu}
           </Drawer>
         </Hidden>
       </nav>
