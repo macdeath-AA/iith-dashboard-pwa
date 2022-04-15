@@ -24,6 +24,7 @@ function TimeTable({ eventList, handleNewCustomEvent, handleDeleteEvent }) {
   const [showAimsError, setShowAimsError] = useState(
     localStorage.getItem('aimskey') === null,
   );
+  const aimsCourse = JSON.parse(localStorage.getItem('aimskey')) || null 
 
   const muiTheme = useTheme();
 
@@ -31,7 +32,6 @@ function TimeTable({ eventList, handleNewCustomEvent, handleDeleteEvent }) {
   let eventDate = null;
   let startTime = null;
   let endTime = null;
-  // let note = "";
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -83,18 +83,20 @@ function TimeTable({ eventList, handleNewCustomEvent, handleDeleteEvent }) {
 
   // deletes custom event on click
   const handleDelete = (clickInfo) => {
-    console.log(clickInfo.event.start.toISOString());
-    if (
-      window.confirm(
-        `Are you sure you want to delete the event '${clickInfo.event.title}'`,
-      )
-    ) {
-      clickInfo.event.remove();
-      handleDeleteEvent(
+
+    const aimsTitle = aimsCourse.identifiedCourses.find(course => course === clickInfo.event.title)
+    if (aimsTitle !== undefined){
+      window.alert('AIMS courses cannot be deleted.');
+    }
+    else {
+      if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)){
+        clickInfo.event.remove()
+        handleDeleteEvent(
         clickInfo.event.title,
         clickInfo.event.start.toISOString(),
         clickInfo.event.end.toISOString(),
       );
+      }
     }
   };
 
@@ -235,13 +237,6 @@ function TimeTable({ eventList, handleNewCustomEvent, handleDeleteEvent }) {
               shrink: true,
             }}
           />
-          {/* <TextField
-          margin="dense"
-          id="notes"
-          label="Add note"
-          fullWidth
-          onChange={handleNoteChange}
-          /> */}
         </DialogContent>
         <DialogActions>
           <Button

@@ -85,20 +85,19 @@ function App() {
     setCustomEvents((currentList) => [...currentList, newEvent]);
   };
   const removeEvent = (eventName, startTime, endTime) => {
-    const jsonObj = JSON.parse(localStorage.getItem(customKey)) || [];
+    const customEventList = JSON.parse(localStorage.getItem(customKey)) || [];
 
     const newCustomList = [];
-    jsonObj.forEach((delEvent) => {
-      console.log(startTime, delEvent.title);
-
+    customEventList.forEach((event) => {
+      
       if (
-        delEvent.title === eventName
-        && delEvent.start === startTime
-        && delEvent.end === endTime
+        event.title === eventName
+        && event.start === startTime
+        && event.end === endTime
       ) {
         return;
       }
-      newCustomList.push(delEvent);
+      newCustomList.push(event);
     });
 
     localStorage.setItem(customKey, JSON.stringify(newCustomList));
