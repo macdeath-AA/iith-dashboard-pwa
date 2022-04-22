@@ -65,11 +65,9 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
       today.getMonth() + 1 < 10
         ? `0${(today.getMonth() + 1).toString()}`
         : (today.getMonth() + 1).toString()
-    }-${today
-      .getDate()
-      .toString()}T${today
-      .getHours()
-      .toString()}:${today.getMinutes().toString()}`;
+    }-${today.getDate().toString()}T${today.getHours().toString()}:${today
+      .getMinutes()
+      .toString()}`;
     setDefault(date);
   }, []);
 
@@ -230,6 +228,7 @@ function TimeTable({ eventList, handleNewCustomEvent }) {
 }
 
 TimeTable.propTypes = {
+  // eslint-disable-next-line
   eventList: PropTypes.arrayOf(PropTypes.object),
   handleNewCustomEvent: PropTypes.func,
 };

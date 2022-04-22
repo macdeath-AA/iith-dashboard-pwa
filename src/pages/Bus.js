@@ -167,6 +167,7 @@ function Bus({ schedule, loading, error }) {
 export default Bus;
 
 Bus.propTypes = {
+  // eslint-disable-next-line
   schedule: PropTypes.objectOf(PropTypes.object),
   loading: PropTypes.bool,
   error: PropTypes.bool,

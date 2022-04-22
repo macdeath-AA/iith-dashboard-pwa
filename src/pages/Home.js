@@ -156,7 +156,6 @@ function Home({
         if (check === 0) buses.push(timeSet[0]);
         check = 0;
       }
-      console.log('Done');
       setTimes(buses);
     }
   }, [schedule, start, setTimes, error, loading]);
@@ -421,8 +420,11 @@ function Home({
 }
 
 Home.propTypes = {
+  // eslint-disable-next-line
   Menu: PropTypes.objectOf(PropTypes.object),
+  // eslint-disable-next-line
   schedule: PropTypes.objectOf(PropTypes.object),
+  // eslint-disable-next-line
   events: PropTypes.arrayOf(PropTypes.object),
   loading: PropTypes.bool,
   error: PropTypes.bool,
