@@ -1,4 +1,5 @@
 import moment from 'moment';
+// import FullCalendar from '@fullcalendar/react';
 
 const segmentStartDates = [
   '2022-01-03 00:00:00',
@@ -255,11 +256,31 @@ function makeEventList(aimsTimeTable, customEventList) {
             break;
           }
 
-          courseEvents.push({
-            start: courseTime.toDate(),
-            end: courseTime.clone().add(currSlot.duration, 'minutes').toDate(),
-            title: courseDisplayName,
-          });
+          if (slot === 'A' || 'B' || 'C' || 'D' || 'E' || 'F' || 'G') {
+            courseEvents.push({
+              start: courseTime.toDate(),
+              end: courseTime
+                .clone()
+                .add(currSlot.duration, 'minutes')
+                .toDate(),
+              title: courseDisplayName,
+              dow: [
+                slotInfo[slot][0].day,
+                slotInfo[slot][1].day,
+                slotInfo[slot][2].day,
+              ],
+            });
+          } else {
+            courseEvents.push({
+              start: courseTime.toDate(),
+              end: courseTime
+                .clone()
+                .add(currSlot.duration, 'minutes')
+                .toDate(),
+              title: courseDisplayName,
+              dow: [slotInfo[slot][0].day, slotInfo[slot][1].day],
+            });
+          }
 
           i += 7;
         }

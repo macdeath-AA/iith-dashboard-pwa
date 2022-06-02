@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import FullCalendar from '@fullcalendar/react';
-import interactionPlugin from '@fullcalendar/interaction';
+// import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -24,7 +24,7 @@ function TimeTable({ eventList, handleNewCustomEvent, handleDeleteEvent }) {
   const [showAimsError, setShowAimsError] = useState(
     localStorage.getItem('aimskey') === null,
   );
-  const aimsCourse = JSON.parse(localStorage.getItem('aimskey')) || null 
+  const aimsCourse = JSON.parse(localStorage.getItem('aimskey')) || null;
 
   const muiTheme = useTheme();
 
@@ -67,11 +67,9 @@ function TimeTable({ eventList, handleNewCustomEvent, handleDeleteEvent }) {
       today.getMonth() + 1 < 10
         ? `0${(today.getMonth() + 1).toString()}`
         : (today.getMonth() + 1).toString()
-    }-${today
-      .getDate()
-      .toString()}T${today
-      .getHours()
-      .toString()}:${today.getMinutes().toString()}`;
+    }-${today.getDate().toString()}T${today.getHours().toString()}:${today
+      .getMinutes()
+      .toString()}`;
     setDefault(date);
   }, []);
 
@@ -81,22 +79,24 @@ function TimeTable({ eventList, handleNewCustomEvent, handleDeleteEvent }) {
     setOpen(false);
   };
 
-  // deletes custom event on click
+  // deletes custom event on click, displays window alert for aims event
   const handleDelete = (clickInfo) => {
-
-    const aimsTitle = aimsCourse.identifiedCourses.find(course => course === clickInfo.event.title)
-    if (aimsTitle !== undefined){
+    const aimsTitle = aimsCourse.identifiedCourses.find(
+      (course) => course === clickInfo.event.title,
+    );
+    if (aimsTitle !== undefined) {
       window.alert('AIMS courses cannot be deleted.');
-    }
-    else {
-      if (window.confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)){
-        clickInfo.event.remove()
-        handleDeleteEvent(
+    } else if (
+      window.confirm(
+        `Are you sure you want to delete the event '${clickInfo.event.title}'`,
+      )
+    ) {
+      clickInfo.event.remove();
+      handleDeleteEvent(
         clickInfo.event.title,
         clickInfo.event.start.toISOString(),
         clickInfo.event.end.toISOString(),
       );
-      }
     }
   };
 
@@ -136,7 +136,7 @@ function TimeTable({ eventList, handleNewCustomEvent, handleDeleteEvent }) {
   return (
     <div id="calendar-div">
       <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        plugins={[dayGridPlugin, timeGridPlugin]}
         initialView="timeGridWeek"
         headerToolbar={{
           left: 'prev,today,next',

@@ -89,7 +89,6 @@ function App() {
 
     const newCustomList = [];
     customEventList.forEach((event) => {
-      
       if (
         event.title === eventName
         && event.start === startTime
