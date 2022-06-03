@@ -290,6 +290,7 @@ function Mess({ Menu, loading, error }) {
 }
 
 Mess.propTypes = {
+  // eslint-disable-next-line
   Menu: PropTypes.objectOf(PropTypes.object),
   loading: PropTypes.bool,
   error: PropTypes.bool,

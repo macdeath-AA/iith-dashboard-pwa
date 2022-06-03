@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import dotenv from 'dotenv';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Container, CssBaseline } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -10,7 +9,6 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Mess from './pages/Mess';
-// import Cab from './pages/Cab';
 import Timetable from './pages/TimeTable';
 import Bus from './pages/Bus';
 import BottomNav from './components/BottomNav';
@@ -22,8 +20,6 @@ import makeEventList from './makeEventList';
 import { lightTheme, darkTheme } from './Themes';
 
 import './App.css';
-
-dotenv.config();
 
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -106,7 +102,6 @@ function App() {
 
             if (JSON.stringify(aimsTimetable) !== JSON.stringify(tt)) {
               const newEventList = makeEventList(tt, customEvents);
-              console.log(newEventList);
               localStorage.setItem(masterKey, JSON.stringify(newEventList));
               setEventList(newEventList);
               localStorage.setItem(aimsKey, JSON.stringify(tt));
