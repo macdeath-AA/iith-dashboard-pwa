@@ -229,7 +229,10 @@ function makeEventList(aimsTimeTable, customEventList) {
 
       const slot = aimsTimeTable.identifiedSlots[index];
       const segmentStartDate = moment(segmentStartDates[startSegment - 1]);
-      const segmentEndDate = moment(segmentEndDates[endSegment - 1]);
+      const segmentEndDate = moment(segmentEndDates[endSegment - 1]).add(
+        1,
+        'days',
+      ); // adding 1 more day because FC endRecur is exclusive
       let courseDisplayName = courseCode;
 
       if (aimsTimeTable.identifiedCourseNames?.[index]) {
@@ -237,32 +240,23 @@ function makeEventList(aimsTimeTable, customEventList) {
       }
 
       slotInfo[slot].forEach((currSlot) => {
-        let i = currSlot.day;
+        const courseTime = segmentStartDate
+          .clone()
+          .weekday(currSlot.day)
+          .add(currSlot.hour, 'hours')
+          .add(currSlot.minute, 'minutes');
 
-        while (true) {
-          const courseTime = segmentStartDate
+        courseEvents.push({
+          title: courseDisplayName,
+          startRecur: segmentStartDate.toDate(),
+          endRecur: segmentEndDate.toDate(),
+          startTime: courseTime.format('HH:mm:ss'),
+          endTime: courseTime
             .clone()
-            .weekday(i)
-            .add(currSlot.hour, 'hours')
-            .add(currSlot.minute, 'minutes');
-
-          if (courseTime.isBefore(segmentStartDate)) {
-            i += 7;
-            continue; //eslint-disable-line
-          }
-
-          if (courseTime.isAfter(segmentEndDate)) {
-            break;
-          }
-
-          courseEvents.push({
-            start: courseTime.toDate(),
-            end: courseTime.clone().add(currSlot.duration, 'minutes').toDate(),
-            title: courseDisplayName,
-          });
-
-          i += 7;
-        }
+            .add(currSlot.duration, 'minutes')
+            .format('HH:mm:ss'),
+          daysOfWeek: [currSlot.day],
+        });
       });
     });
   }
